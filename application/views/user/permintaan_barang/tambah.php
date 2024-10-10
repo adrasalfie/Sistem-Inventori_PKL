@@ -132,7 +132,7 @@
 				</tr>
 			</tbody>
 		</table>
-		<button type="button" id="submitAll" class="btn btn-success mt-3">Permintaan</button>
+		<button type="button" id="submitAll" class="btn btn-success mt-3">Kirim Permintaan</button>
 	</div>
 </div>
 <!-- /.card -->

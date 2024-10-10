@@ -77,24 +77,16 @@ class Barang extends CI_Controller
 			// Get the last inserted ID
 			$last_id = $this->db->insert_id();
 
+
 			// Prepare data for insertion into harga_pengajuan
 			$data_harga_pengajuan = array(
 				'id_barang' => $last_id,
 				'harga_pengajuan' => 0
 			);
 
-			// Attempt to insert data into 'harga_pengajuan' table
-			if ($this->db->insert('harga_pengajuan', $data_harga_pengajuan)) {
-				// Set flashdata for success and redirect
-				$this->session->set_flashdata('success', 'Data Berhasil Ditambahkan');
-				redirect('barang');
-			} else {
-				// Handle failure of harga_pengajuan insertion
-				$error = $this->db->error();
-				$this->session->set_flashdata('error', 'Data Gagal Ditambahkan ke harga_pengajuan: ' . $error['message']);
-				redirect('barang');
-			}
+			$this->Barang_model->insert_harga_pengajuan($data_harga_pengajuan);
 			$this->session->set_flashdata('success', 'Data Berhasil Ditambahkan');
+			redirect('barang');
 		} else {
 			// Handle failure of barang insertion
 			$error = $this->db->error();
@@ -102,6 +94,9 @@ class Barang extends CI_Controller
 			redirect('barang');
 		}
 	}
+
+
+	
 
 
 	public function tambah()
@@ -133,7 +128,7 @@ class Barang extends CI_Controller
 	public function hapus($id)
 	{
 		is_logged_in();
-		
+
 		$this->Barang_model->hapus($id);
 		redirect('barang');
 	}
@@ -195,7 +190,13 @@ class Barang extends CI_Controller
 
 	public function excel()
 	{
-		$file_mimes = array('application/vnd.ms-excel', 'text/plain', 'text/csv', 'text/tsv', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		$file_mimes = array(
+			'application/vnd.ms-excel',
+			'text/plain',
+			'text/csv',
+			'text/tsv',
+			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+		);
 
 		if (isset($_FILES['file']['name']) && in_array($_FILES['file']['type'], $file_mimes)) {
 
@@ -212,7 +213,7 @@ class Barang extends CI_Controller
 			// Extract Kd Barang column
 			$kd_barang = array_column($sheetData, 0);
 
-			// Check for duplicate values
+			// Check for duplicate values in the uploaded file
 			if (count($kd_barang) !== count(array_unique($kd_barang))) {
 				$this->session->set_flashdata('error', 'Duplicate Kd Barang found in the uploaded file.');
 				redirect('barang');
@@ -221,17 +222,34 @@ class Barang extends CI_Controller
 			foreach ($sheetData as $key => $row) {
 				if ($key == 0) continue; // Skip the header row
 
-				$data = array(
+				// Check if kd_barang already exists in the database
+				if ($this->Barang_model->exists_kd_barang($row[0])) {
+					$this->session->set_flashdata('error', 'Kd Barang ' . $row[0] . ' already exists in the database.');
+					redirect('barang');
+				}
+
+				$data_barang = array(
 					'kd_barang' => $row[0],
 					'nama_barang' => $row[1],
 					'kategori' => $row[2],
 					'satuan' => $row[3],
 					'stok' => $row[4],
 					'harga_satuan' => $row[5],
-					'id_harga_pengajuan' => $row[6],
 				);
 
-				$this->Barang_model->insert_barang($data);
+				// Insert data into barang table
+				$this->Barang_model->insert_barang($data_barang);
+
+				// Get the inserted id_barang
+				$id_barang = $this->db->insert_id();
+
+				// Insert data into harga_pengajuan table
+				$data_harga_pengajuan = array(
+					'id_barang' => $id_barang,
+					'harga_pengajuan' => 0
+				);
+
+				$this->Barang_model->insert_harga_pengajuan($data_harga_pengajuan);
 			}
 
 			$this->session->set_flashdata('success', 'Data has been successfully imported.');
@@ -241,6 +259,7 @@ class Barang extends CI_Controller
 			redirect('barang');
 		}
 	}
+
 
 	public function download_excel()
 	{
@@ -284,8 +303,4 @@ class Barang extends CI_Controller
 		header('Cache-Control: max-age=0');
 		$writer->save('php://output');
 	}
-
-
-
-
 }

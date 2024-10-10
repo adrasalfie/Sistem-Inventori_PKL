@@ -16,7 +16,7 @@
 						<input type="date" name="tgl_akhir" id="tgl_akhir" class="form-control" required value="<?= $tgl_akhir ;?>">
 					</div>
 				</div>
-				<div class="col-md-5">
+				<!-- <div class="col-md-5">
 					<div class="form-group">
 						<label for="tgl_akhir">Ruangan</label>
 						<select class="form-control" name="id_ruangan" id="">
@@ -25,7 +25,7 @@
 							<?php endforeach ?>
 						</select>
 					</div>
-				</div>
+				</div> -->
 				<div class="col-md-2">
 					<div class="form-group">
 						<label>&nbsp;</label>
@@ -38,7 +38,7 @@
 			<div class="card-header py-2">
 				<div class="my-2"></div>
 				<?php echo $this->session->flashdata('message'); ?>
-				<a target="_blank" href="<?= base_url('/laporan_permintaan/cetak?tgl_mulai=' . $tgl_mulai . '&tgl_akhir=' . $tgl_akhir . '&id_ruangan=' . $id_ruangan); ?>" class="btn btn-success mt-1">Cetak Laporan</a>
+				<a target="_blank" href="<?= base_url('/laporan_permintaan/cetak?tgl_mulai=' . $tgl_mulai . '&tgl_akhir=' . $tgl_akhir ); ?>" class="btn btn-success mt-1">Cetak Laporan</a>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">

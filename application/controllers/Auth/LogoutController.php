@@ -14,7 +14,7 @@ class LogoutController extends CI_Controller {
 	public function index()
 	{
 				// destroy session
-		$session = ['username','level'];
+		$session = ['username','level' , 'jabatan'];
 
 		$this->session->unset_userdata($session);
 

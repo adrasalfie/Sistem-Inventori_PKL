@@ -15,10 +15,22 @@ class User_model extends CI_Model
         return $this->db->get('user')->result_array();
     }
 
+
+	
+
     
     public function get_user_by_username($username) {
         // Get user's data based on username
         $this->db->select('id_user');
+        $this->db->from('user');
+        $this->db->where('username', $username);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+	public function get_user_by_username_all($username) {
+        // Get user's data based on username
+        $this->db->select('*');
         $this->db->from('user');
         $this->db->where('username', $username);
         $query = $this->db->get();

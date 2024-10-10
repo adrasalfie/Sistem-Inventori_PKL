@@ -1,5 +1,5 @@
 <?php
-class ruangan_model extends CI_Model
+class Ruangan_model extends CI_Model
 {
 	public function get_ruangan()
 	{

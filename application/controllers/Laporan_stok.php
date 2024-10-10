@@ -9,7 +9,7 @@ class Laporan_stok extends CI_Controller {
         $this->load->model('Laporan_stok_model');
         $this->load->model('Admin_model');
         $this->load->model('Barang_model');
-        $this->load->model('ruangan_model');
+        $this->load->model('Ruangan_model');
 
     }
 
@@ -26,7 +26,7 @@ class Laporan_stok extends CI_Controller {
         $data['id_barang'] = '';
         $data['id_ruangan'] = '';
         $data['permintaan'] = $this->Laporan_stok_model->tampil_data();
-		$data['ruangan'] = $this->ruangan_model->get_ruangan();
+		$data['ruangan'] = $this->Ruangan_model->get_ruangan();
         $this->load->view('templates/header');
         $this->load->view('admin/laporan_stok/index', $data);
         $this->load->view('templates/footer');
@@ -39,9 +39,7 @@ class Laporan_stok extends CI_Controller {
         $nama = $this->input->post('nama_barang');
 
 
-
-
-		$data['ruangan'] = $this->ruangan_model->get_ruangan();
+		$data['ruangan'] = $this->Ruangan_model->get_ruangan();
 		$data['permintaan'] = $this->Laporan_stok_model->filterByRuangan($id_barang , $id_ruangan , $nama);
 		$data['kategori'] = $id_barang;
 		$data['ruangan_id'] = $id_ruangan;

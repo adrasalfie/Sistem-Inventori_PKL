@@ -187,7 +187,7 @@
                                     </div>
 									<div>
                                         <div class="small text-gray-500"></div>
-                                        <?= $this->fungsi->user_login2()['username'] ?>
+                                        <?= $this->fungsi->user_login2()->nama ?>
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -198,7 +198,7 @@
                                     </div>
 									<div>
                                         <div class="small text-gray-500"></div>
-                                        <?= $this->fungsi->user_login2()['jabatan'] ?>
+                                        <?= $this->fungsi->user_login2()->jabatan ?>
                                     </div>
                                 </a>
                                 

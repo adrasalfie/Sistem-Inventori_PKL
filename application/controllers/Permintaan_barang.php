@@ -11,7 +11,7 @@ class Permintaan_barang extends CI_Controller
 		$this->load->model('Permintaan_barang_model');
 		$this->load->model('Barang_model');
 		$this->load->model('User_model');
-		$this->load->model('ruangan_model');
+		$this->load->model('Ruangan_model');
 
 		is_logged_in();
 	}
@@ -22,7 +22,7 @@ class Permintaan_barang extends CI_Controller
 
 
 		$data['permintaan_barang'] = $this->Permintaan_barang_model->get_grouped_by_date();
-		$data['ruangan'] = $this->ruangan_model->get_ruangan();
+		$data['ruangan'] = $this->Ruangan_model->get_ruangan();
 
 		$this->load->view('templates/header1', $data);
 		$this->load->view('user/permintaan_barang/index', $data);
@@ -36,7 +36,7 @@ class Permintaan_barang extends CI_Controller
 		$username = $this->session->userdata('username');
 		$data['user'] = $this->User_model->get_user($username);
 		$data['barang'] = $this->Barang_model->get_all_barang();
-		$data['ruangan'] = $this->ruangan_model->get_ruangan();
+		$data['ruangan'] = $this->Ruangan_model->get_ruangan();
 		$data['tanggal'] = date('Y-m-d');
 		$data['user_requests'] = $this->Permintaan_barang_model->get_user_requests($this->session->userdata('id_user'));
 
@@ -68,7 +68,7 @@ class Permintaan_barang extends CI_Controller
 		$data['detail'] = $this->Permintaan_barang_model->get_by_date_and_user($tanggal, $id_user);
 		$data['tanggal'] = $tanggal;
 		$data['id_user'] = $id_user;
-		$data['ruangan'] = $this->ruangan_model->get_ruangan();
+		$data['ruangan'] = $this->Ruangan_model->get_ruangan();
 		$this->load->view('templates/header1', $data);
 		$this->load->view('user/permintaan_barang/detail', $data);
 		$this->load->view('templates/footer');
@@ -88,7 +88,7 @@ class Permintaan_barang extends CI_Controller
 
 
 		$data['permintaan'] = $this->Permintaan_barang_model->tampil_data();
-		$data['ruangan'] = $this->ruangan_model->get_ruangan();
+		$data['ruangan'] = $this->Ruangan_model->get_ruangan();
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('admin/permintaan_barang/index', $data);
@@ -99,11 +99,11 @@ class Permintaan_barang extends CI_Controller
 	{
 		$id_permintaan = $this->input->post('id_permintaan');
 		$status = $this->input->post('status');
-
+		$jumlah = $this->input->post('jumlah');
 
 
 		// Update status permintaan
-		$this->Permintaan_barang_model->update_status($id_permintaan, $status);
+		$this->Permintaan_barang_model->update_status($id_permintaan, $status  , $jumlah);
 
 		if ($status == 'Approved') {
 			$jumlah = $this->Permintaan_barang_model->get_jumlah_permintaan($id_permintaan);

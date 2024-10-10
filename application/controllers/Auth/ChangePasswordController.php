@@ -8,6 +8,7 @@ class ChangePasswordController extends CI_Controller {
 		parent::__construct();
 		//Load Dependencies
 		is_logged_in();
+        
 	}
 
 	// List all your items

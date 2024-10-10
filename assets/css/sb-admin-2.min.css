@@ -11229,7 +11229,7 @@ a:focus {
 }
 
 .bg-login-image {
-    background: url('/xampp/htdocs/inventori/img/logobps.png') !important;
+    background: url('./logo.png') !important;
     background-position: center;
     background-size: cover
 }

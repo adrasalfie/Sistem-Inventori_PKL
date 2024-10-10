@@ -30,7 +30,10 @@
                 <div class="form-container">
                     <h4 class="mb-3">Reset Password</h4>
                     <?php echo form_open('Auth/LoginController/update_password'); ?>
-                        <input type="hidden" name="token" value="<?php echo $token; ?>">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" name="username" id="username" class="form-control" required value="<?php echo set_value('username'); ?>">
+                        </div>
                         <div class="form-group">
                             <label for="password">Password Baru</label>
                             <input type="password" name="password" id="password" class="form-control" required>

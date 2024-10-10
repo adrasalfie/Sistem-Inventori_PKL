@@ -9,7 +9,7 @@ class Laporan_pengajuan_model extends CI_Model{
         $this->db->from('pengajuan');
         $this->db->join('barang', 'pengajuan.id_barang = barang.id_barang');
         $this->db->join('harga_pengajuan', 'barang.id_barang = harga_pengajuan.id_barang');
-        // $this->db->where('pengajuan.status', 'Approved');
+        $this->db->where('pengajuan.status', 'Approved');
         $this->db->where('pengajuan.tanggal >=', $tgl_mulai);
         $this->db->where('pengajuan.tanggal <=', $tgl_akhir);
         return $this->db->get()->result_array();

@@ -4,7 +4,7 @@
 <footer class="sticky-footer bg-white">
 	<div class="container my-auto">
 		<div class="copyright text-center my-auto">
-			<span>Inventory</span>
+			<span>&copy; Inventory-Adra Salfie N.</span>
 		</div>
 	</div>
 </footer>
@@ -225,6 +225,8 @@
 		$('.btn-save').click(function() {
 			var id_permintaan = $(this).data('id');
 			var status = $('input[name="status_' + id_permintaan + '"]:checked').val();
+			var jumlah = $('input[name="jumlah_' + id_permintaan + '"]').val();
+
 
 			if (!status) {
 				alert('Pilih status terlebih dahulu!');
@@ -236,7 +238,8 @@
 				method: 'POST',
 				data: {
 					id_permintaan: id_permintaan,
-					status: status
+					status: status,
+					jumlah:jumlah
 				},
 				success: function(response) {
 					alert('Status berhasil diperbarui!');

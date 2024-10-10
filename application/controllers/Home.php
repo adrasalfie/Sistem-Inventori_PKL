@@ -22,11 +22,13 @@ class Home extends CI_Controller {
         }
 
 		public function home_user() {
+			$data['pengajuan_pertanggal'] = $this->get_pengajuan_per_hari_2_minggu_terakhir();
+			$data['pengajuan_perbulan'] = $this->get_pengajuan_per_bulan_tahun_ini();
 			
             
-            $this->load->view('templates/header1');
-            $this->load->view('user/home/index');
-            $this->load->view('templates/footer');
+            $this->load->view('templates/header1', $data);
+            $this->load->view('user/home/index', $data);
+            $this->load->view('templates/footer', $data);
         }
 
 		public function home_admin_pengajuan()

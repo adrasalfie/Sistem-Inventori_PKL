@@ -62,9 +62,10 @@ class Permintaan_barang_model extends CI_Model
         $this->db->insert('permintaan', $data);
     }
 
-	public function update_status($id_permintaan, $status) {
+	public function update_status($id_permintaan, $status , $jumlah) {
         $data = array(
-            'status' => $status
+            'status' => $status,
+			'jumlah' => $jumlah
         );
         $this->db->where('id_permintaan', $id_permintaan);
         $this->db->update('permintaan', $data);

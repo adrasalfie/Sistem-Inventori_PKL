@@ -16,6 +16,19 @@ class Barang_model extends CI_Model
 		return $query->result_array();
 	}
 
+	public function exists_kd_barang($kd_barang)
+	{
+		$this->db->where('kd_barang', $kd_barang);
+		$query = $this->db->get('barang');
+
+		return $query->num_rows() > 0;
+	}
+
+	public function insert_harga_pengajuan($data)
+	{
+		$this->db->insert('harga_pengajuan', $data);
+	}
+
 	public function get_all_barang()
 	{
 		$this->db->select('barang.*, harga_pengajuan.harga_pengajuan AS harga_pengajuan_harga');
@@ -45,25 +58,40 @@ class Barang_model extends CI_Model
 	}
 	public function simpan()
 	{
-		$data = [
+		$kd_barang = $this->input->post('kd_barang');
 
-			"kd_barang" => $this->input->post('kd_barang'),
+		// Check if kd_barang already exists
+		if ($this->exists_kd_barang($kd_barang)) {
+			$this->session->set_flashData('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Data Gagal Ditambahkan</strong> Kode Barang sudah ada.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>');
+			redirect('barang');
+		}
+
+		$data = [
+			"kd_barang" => $kd_barang,
 			"nama_barang" => $this->input->post('nama_barang'),
 			"kategori" => $this->input->post('kategori'),
 			"satuan" => $this->input->post('satuan'),
 			"stok" => $this->input->post('stok'),
 			"harga_satuan" => $this->input->post('harga_satuan'),
 			"id_harga_pengajuan" => $this->input->post('id_harga_pengajuan'),
-
 		];
-		$this->session->set_flashData('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Data Berhasil Ditambahkan</strong> 
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>');
+
 		$this->db->insert('barang', $data);
+
+		$this->session->set_flashData('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Data Berhasil Ditambahkan</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>');
+		redirect('barang');
 	}
+
 
 	public function hapus($id)
 	{
@@ -79,7 +107,27 @@ class Barang_model extends CI_Model
 
 	public function ubah()
 	{
+		$kd_barang = $this->input->post('kd_barang');
+		$id_barang = $this->input->post('id');
 
+		// Check for duplicate kd_barang
+		$this->db->select('id_barang');
+		$this->db->from('barang');
+		$this->db->where('kd_barang', $kd_barang);
+		$this->db->where('id_barang !=', $id_barang); // Exclude the current record
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			// If duplicate kd_barang found, set flashdata and redirect
+			$this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Data Gagal Diupdate</strong> Kode Barang sudah digunakan oleh barang lain.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>');
+			redirect('barang'); // Ganti dengan URL yang sesuai
+			return;
+		}
 
 		$data = [
 			"kd_barang" => $this->input->post('kd_barang'),
@@ -89,41 +137,42 @@ class Barang_model extends CI_Model
 			"stok" => $this->input->post('stok'),
 			"harga_satuan" => $this->input->post('harga_satuan'),
 		];
-	
+
 		// Memulai transaksi
 		$this->db->trans_start();
-	
+
 		// Melakukan update
-		$this->db->where('id_barang', $this->input->post('id'));
+		$this->db->where('id_barang', $id_barang);
 		$this->db->update('barang', $data);
-	
+
 		// Menyelesaikan transaksi
 		$this->db->trans_complete();
-	
+
 		if ($this->db->trans_status() === FALSE) {
 			// Jika transaksi gagal, ambil pesan kesalahan
 			$error = $this->db->error();
-	
+
 			// Tampilkan pesan kesalahan menggunakan flashdata
 			$this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-				<strong>Data Gagal Diupdate</strong> Error: ' . $error['message'] . '
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-				</button>
-			</div>');
+            <strong>Data Gagal Diupdate</strong> Error: ' . $error['message'] . '
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>');
 		} else {
 			// Jika transaksi berhasil, tampilkan pesan sukses
 			$this->session->set_flashdata('message', '<div class="alert alert-primary alert-dismissible fade show" role="alert">
-				<strong>Data Berhasil Diupdate</strong> 
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-				</button>
-			</div>');
+            <strong>Data Berhasil Diupdate</strong> 
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>');
 		}
-	
+
 		// Redirect kembali ke halaman yang sesuai
 		redirect('barang'); // Ganti dengan URL yang sesuai
 	}
+
 
 	public function get_id($id)
 	{

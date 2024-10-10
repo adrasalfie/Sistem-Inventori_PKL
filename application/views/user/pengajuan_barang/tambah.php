@@ -141,7 +141,7 @@
                 </tr>
             </tbody>
         </table>
-        <button type="button" id="submitAll1" class="btn btn-success mt-3">Pengajuan</button>
+        <button type="button" id="submitAll1" class="btn btn-success mt-3">Kirim Pengajuan</button>
     </div>
 </div>
 <!-- /.card -->

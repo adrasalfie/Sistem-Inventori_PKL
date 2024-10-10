@@ -125,7 +125,7 @@
 			<!-- Divider -->
 			<hr class="sidebar-divider my-0">
 			<li class="nav-item active">
-				<a class="nav-link" href="<?= base_url('user'); ?>">
+				<a class="nav-link" href="<?= base_url('home/home_user'); ?>">
 					<i class="fas fa-fw fa-tachometer-alt"></i>
 					<span>Dashboard</span></a>
 			</li>
@@ -186,7 +186,7 @@
 									</div>
 									<div>
 										<div class="small text-gray-500"></div>
-										<?= $this->fungsi->user_login1()['username'] ?>
+										<?= $this->fungsi->user_login1()->nama ?>
 									</div>
 								</a>
 								<a class="dropdown-item d-flex align-items-center" href="#">
@@ -197,7 +197,7 @@
 									</div>
 									<div>
 										<div class="small text-gray-500"></div>
-										<?= $this->fungsi->user_login1()['jabatan'] ?>
+										<?= $this->fungsi->user_login1()->jabatan ?>
 									</div>
 								</a>
 

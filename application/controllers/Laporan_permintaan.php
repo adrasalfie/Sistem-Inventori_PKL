@@ -25,9 +25,9 @@ class Laporan_permintaan extends CI_Controller {
 		$data['permintaan'] = [];
         $data['tgl_mulai'] = '';
         $data['tgl_akhir'] = '';
-        $data['id_ruangan'] = '';
+        // $data['id_ruangan'] = '';
         $data['permintaan'] = $this->Permintaan_barang_model->tampil_data();
-		$data['ruangan'] = $this->Ruangan_model->get_ruangan();
+		// $data['ruangan'] = $this->Ruangan_model->get_ruangan();
         $this->load->view('templates/header');
         $this->load->view('admin/laporan_permintaan/index', $data);
         $this->load->view('templates/footer');
@@ -37,14 +37,14 @@ class Laporan_permintaan extends CI_Controller {
     {
         $tgl_mulai = $this->input->post('tgl_mulai');
         $tgl_akhir = $this->input->post('tgl_akhir');
-        $id_ruangan = $this->input->post('id_ruangan');
+        // $id_ruangan = $this->input->post('id_ruangan');
 
-        $data['permintaan'] = $this->Laporan_permintaan_model->get_approved_permintaan($tgl_mulai, $tgl_akhir , $id_ruangan);
+        $data['permintaan'] = $this->Laporan_permintaan_model->get_approved_permintaan($tgl_mulai, $tgl_akhir);
 		$data['tgl_mulai'] = $tgl_mulai;
         $data['tgl_akhir'] = $tgl_akhir;
-        $data['id_ruangan'] = $id_ruangan;
+        // $data['id_ruangan'] = $id_ruangan;
 
-        $data['ruangan'] = $this->Ruangan_model->get_ruangan();
+        // $data['ruangan'] = $this->Ruangan_model->get_ruangan();
         $this->load->view('templates/header');
         $this->load->view('admin/laporan_permintaan/index', $data);
         $this->load->view('templates/footer');
@@ -54,10 +54,10 @@ class Laporan_permintaan extends CI_Controller {
     {
 		$tgl_mulai = $this->input->get('tgl_mulai');
         $tgl_akhir = $this->input->get('tgl_akhir');
-        $id_ruangan = $this->input->get('id_ruangan');
+        // $id_ruangan = $this->input->get('id_ruangan');
 
 
-        $data['permintaan'] = $this->Laporan_permintaan_model->get_approved_permintaan($tgl_mulai, $tgl_akhir , $id_ruangan);
+        $data['permintaan'] = $this->Laporan_permintaan_model->get_approved_permintaan($tgl_mulai, $tgl_akhir);
         $this->load->view('admin/laporan_permintaan/cetak_laporan_permintaan', $data);
     }
 

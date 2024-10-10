@@ -2,7 +2,7 @@
     <div class="card-header">
         <!-- Page Heading -->
         <h1 class="h3 mb-3 text-gray-800">Laporan Pengajuan Barang</h1>
-        <form action="<?= base_url('laporan_pengajuan/filter'); ?>" method="POST">
+        <form action="<?= base_url('laporan_pengajuan/filter_pengajuan'); ?>" method="POST">
             <div class="row">
                 <div class="col-md-5">
                     <div class="form-group">

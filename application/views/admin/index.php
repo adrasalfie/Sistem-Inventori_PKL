@@ -10,7 +10,7 @@
                 <?php echo $this->session->flashdata('message'); ?>
                 <a href="<?= base_url('admin/tambah'); ?>" class="btn btn-primary mt-1">Tambah Data</a>
                 
-            </div>\
+            </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">

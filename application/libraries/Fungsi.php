@@ -38,19 +38,31 @@ class Fungsi
 	function user_login()
     {
 		$user_data = $this->ci->session->userdata;
-        return $user_data;
+
+		$this->ci->load->model('Admin_model');
+		$admin = $this->ci->Admin_model->getByUsername($user_data['username']);
+	
+
+		return $admin;
     }
 
 	function user_login1()
     {
+
+		$this->ci->load->model('User_model');
         $user_data = $this->ci->session->userdata;
-        return $user_data;
+		$admin = $this->ci->User_model->get_user_by_username_all($user_data['username']);
+
+        return $admin;
     }
     
 	function user_login2()
     {
 		$user_data = $this->ci->session->userdata;
-        return $user_data;
+
+		$this->ci->load->model('Admin_model');
+		$admin = $this->ci->Admin_model->getByUsernameAdmin2($user_data['username']);
+        return $admin;
     }
 
 
